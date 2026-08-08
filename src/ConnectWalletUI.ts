@@ -64,6 +64,7 @@ export class ConnectWalletUI extends EventTarget {
             <div class="qr-code-container" style="display:none"></div>
             <div class="wallet-main-cancel-container">
                 <button class="btn-close-wallet">${this.uiOptions.mainCancelButtonText}</button>
+                <button class="btn-cancel-mobile-request" style="display:none">Cancel</button>
             </div>
             <div class="connected-container" style="display:none">
                 <!--table class="wallet-stats">
@@ -102,6 +103,7 @@ export class ConnectWalletUI extends EventTarget {
         const connectMobileBtn = this.walletConnectContainer.querySelector('.btn-wallet-connect-mobile') as HTMLButtonElement;
         const walletMainCancelContainer = this.walletConnectContainer.querySelector('.wallet-main-cancel-container') as HTMLButtonElement;
         const walletCloseBtn = this.walletConnectContainer.querySelector('.btn-close-wallet') as HTMLButtonElement;
+        const cancelMobileRequestBtn = this.walletConnectContainer.querySelector('.btn-cancel-mobile-request') as HTMLButtonElement;
 
         const connectedContainer = this.walletConnectContainer.querySelector('.connected-container') as HTMLDivElement;
         const disconnectBtn = this.walletConnectContainer.querySelector('.btn-disconnect') as HTMLButtonElement;
@@ -111,12 +113,14 @@ export class ConnectWalletUI extends EventTarget {
 
 
         getWalletBtn.addEventListener('click', () => {
-            window.location.href = 'https://xelis.io/resources';
+            window.open('https://xelis.io/resources', '_blank');
         });
 
         connectMobileBtn.addEventListener('click', () => {
             this.walletConnectOptions.style.display = 'none';
             this.walletConnectInfo.style.display = 'none';
+            walletCloseBtn.style.display = 'none';
+            cancelMobileRequestBtn.style.display = 'block';
 
             this.walletConnectContainer.style.display = `flex`;
             this.qrCodeContainer.innerHTML = '';
@@ -155,6 +159,11 @@ export class ConnectWalletUI extends EventTarget {
         walletCloseBtn.addEventListener('click', () => {
             this.endInProgressConnection();
             closeWalletUI();
+        });
+
+        cancelMobileRequestBtn.addEventListener('click', () => {
+            this.endInProgressConnection();
+            resetConnectUI();
         });
 
         disconnectBtn.addEventListener('click', () => {
@@ -232,6 +241,8 @@ export class ConnectWalletUI extends EventTarget {
             walletMainCancelContainer.style.display = 'block';
             _thisUI.errorUIContainer.innerHTML = '';
             _thisUI.errorUIContainer.style.display = 'none';
+            cancelMobileRequestBtn.style.display = 'none';
+            walletCloseBtn.style.display = 'block';
         }
 
         function closeWalletUI() {
