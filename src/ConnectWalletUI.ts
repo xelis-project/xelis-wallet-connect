@@ -28,6 +28,8 @@ export class ConnectWalletUI extends EventTarget {
     errorUIContainer: HTMLDivElement;
     uiOptions: UIOptions;
 
+    public reset = () => {};
+
     constructor(wallet: XelisWallet, walletContainer: HTMLElement, uiOptions: any = {}) {
         super();
 
@@ -244,6 +246,8 @@ export class ConnectWalletUI extends EventTarget {
             cancelMobileRequestBtn.style.display = 'none';
             walletCloseBtn.style.display = 'block';
         }
+
+        _thisUI.reset = resetConnectUI;
 
         function closeWalletUI() {
             resetConnectUI();
